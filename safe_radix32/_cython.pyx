@@ -47,6 +47,7 @@ def encode_safe_radix32(long v):
         raise MemoryError
     cdef int leading_zeros = 0
     cdef int shift_i = 0
+    cdef char char_v
     while shift_i < SAFE_MAP_SHIFTS_NUM - 1:
         char_v = (v >> SAFE_MAP_SHIFTS[shift_i]) & SAFE_MASK
         if char_v > 0:

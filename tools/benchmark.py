@@ -15,8 +15,8 @@ import safe_radix32.pure as sr32p
 
 
 def benchmark(name, fn, ns):
-    t = timeit.timeit(lambda: [fn(n) for n in ns], number=2000)
-    print("%-26s %10d/s" % (name, len(ns) / (t / 2000)))
+    t = timeit.timeit(lambda: [fn(n) for n in ns], number=5000)
+    print("%-26s %10d/s" % (name, len(ns) / (t / 5000)))
 
 
 def main():
