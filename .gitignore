@@ -1,0 +1,13 @@
+.idea
+.tox
+.cache
+alphabet/words.txt
+*.pyc
+*.pyo
+*.so
+*~
+safe_radix32/*.c
+build/*
+dist/*
+*.egg-info
+MANIFEST
