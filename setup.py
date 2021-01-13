@@ -67,7 +67,7 @@ setup(
     description=description,
     long_description=long_description,
     long_description_content_type="text/markdown",
-    # url="https://",
+    url="https://github.com/Traktormaster/safe-radix32",
     author=author,
     author_email=author_email,
     license="Apache 2.0",

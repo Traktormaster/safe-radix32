@@ -39,8 +39,10 @@ SAFE_RADIX32_ALPHABET_RE = re.compile(r"^[" + SAFE_RADIX32_ALPHABET + "]+$", re.
 
 
 def encode_safe_radix32(v: int) -> str:
-    # mirror overflow semantics of c-long
-    if v >= 2**63 or v < -(2**63):
+    """
+    :raise OverflowError value is not C long
+    """
+    if v >= 2**63 or v < -(2**63):  # mirror overflow semantics of c-long
         raise OverflowError
     c_string = []
     shift_i = 0
@@ -62,7 +64,7 @@ def encode_safe_radix32(v: int) -> str:
 def decode_safe_radix32(v: str) -> int:
     """
     :raise UnicodeEncodeError if input contains invalid characters (encoding-related)
-    :raise OverflowError if input contains invalid characters (alphabet-related)
+    :raise OverflowError if input contains invalid characters (alphabet-related) or value is not C long
     """
     c_string = v.encode("ascii")
     if len(c_string) > SAFE_MAP_SHIFTS_NUM:
