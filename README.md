@@ -43,9 +43,13 @@ The safe_radix32 alphabet is `2346789BCFGJKLMPQVWZbcfgjkmpqvwz` which was genera
 There is a Cython extension implementation with *good* performance and a pure python fallback module for compatibility.
 
 # Install
-The repository is installable using setuptools.
+A source distribution is available on PyPI:
 
-TODO: pypi
+```console
+$ python -m pip install safe_radix32
+```
+
+Python 3.6+ and PyPy3 are supported.
 
 # Usage
 
