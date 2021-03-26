@@ -1,10 +1,10 @@
 import ast
 import os
 import sys
-from distutils.command.build_ext import build_ext
-from distutils.command.sdist import sdist
 
 from setuptools import setup, Extension
+from setuptools.command.build_ext import build_ext
+from setuptools.command.sdist import sdist
 
 try:
     from Cython.Build import cythonize

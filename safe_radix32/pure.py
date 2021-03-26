@@ -42,7 +42,7 @@ def encode_safe_radix32(v: int) -> str:
     """
     :raise OverflowError value is not C long
     """
-    if v >= 2**63 or v < -(2**63):  # mirror overflow semantics of c-long
+    if v >= 2 ** 63 or v < -(2 ** 63):  # mirror overflow semantics of c-long
         raise OverflowError
     c_string = []
     shift_i = 0
@@ -85,6 +85,29 @@ def decode_safe_radix32(v: str) -> int:
     # mirror overflow semantics of c-long
     if u & DECODE_LIMIT_HELPER0:
         u = (u & DECODE_LIMIT_HELPER1) - DECODE_LIMIT_HELPER0
-    elif u > DECODE_LIMIT_HELPER0:
-        u &= DECODE_LIMIT_HELPER1
     return u
+
+
+def encode_safe_radix32_fixed_width(v: int) -> str:
+    """
+    :raise OverflowError value is not C long
+    """
+    if v >= 2 ** 63 or v < -(2 ** 63):  # mirror overflow semantics of c-long
+        raise OverflowError
+    return "".join(
+        (
+            SAFE_MAP[(v >> 60) & 15],
+            SAFE_MAP[(v >> 55) & 31],
+            SAFE_MAP[(v >> 50) & 31],
+            SAFE_MAP[(v >> 45) & 31],
+            SAFE_MAP[(v >> 40) & 31],
+            SAFE_MAP[(v >> 35) & 31],
+            SAFE_MAP[(v >> 30) & 31],
+            SAFE_MAP[(v >> 25) & 31],
+            SAFE_MAP[(v >> 20) & 31],
+            SAFE_MAP[(v >> 15) & 31],
+            SAFE_MAP[(v >> 10) & 31],
+            SAFE_MAP[(v >> 5) & 31],
+            SAFE_MAP[v & 31],
+        )
+    )

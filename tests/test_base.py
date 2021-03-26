@@ -5,7 +5,12 @@ import pytest
 import safe_radix32
 
 
+def _to_fixed_width(t: str) -> str:
+    return safe_radix32.ALPHABET[0] * (13 - len(t)) + t
+
+
 def test_safe_radix32_base():
+    assert len(safe_radix32.encode_fw(0)) == 13
     assert safe_radix32.ALPHABET == "2346789BCFGJKLMPQVWZbcfgjkmpqvwz"
     for i in range(32):
         t = safe_radix32.encode(i)
@@ -34,13 +39,17 @@ def test_safe_radix32_base():
         (8474785761110355227, "BJB6qgwJCGpCp"),
         (3927410648750184479, "6L2Bg8bwvMf2z"),
     ]:
+        t_fw = _to_fixed_width(t)
         assert safe_radix32.encode(i) == t, t
+        assert safe_radix32.encode_fw(i) == t_fw, f"{i} {t_fw}"
         assert safe_radix32.decode(t) == i, t
         assert safe_radix32.ALPHABET_RE.match(t) is not None
     # random consistency checks
-    for _ in range(100):
+    for _ in range(5000):
         r = random.randint(-(2 ** 63), 2 ** 63 - 1)
         x = safe_radix32.encode(r)
+        x_fw = _to_fixed_width(x)
+        assert safe_radix32.encode_fw(r) == x_fw
         assert safe_radix32.decode(x) == r, x
         assert safe_radix32.ALPHABET_RE.match(x) is not None
 
@@ -49,7 +58,11 @@ def test_safe_radix32_limits():
     with pytest.raises(OverflowError):
         safe_radix32.encode(2 ** 63)
     with pytest.raises(OverflowError):
+        safe_radix32.encode_fw(2 ** 63)
+    with pytest.raises(OverflowError):
         safe_radix32.encode(-(2 ** 63) - 1)
+    with pytest.raises(OverflowError):
+        safe_radix32.encode_fw(-(2 ** 63) - 1)
     for c in "01AaEIoOyYxXrR/*_:?#&%!+'\"":
         with pytest.raises(OverflowError):
             safe_radix32.decode(c)

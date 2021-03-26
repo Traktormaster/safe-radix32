@@ -10,20 +10,31 @@ import os
 __author__ = "Nándor Mátravölgyi"
 __copyright__ = "Copyright 2021 Nándor Mátravölgyi"
 __author_email__ = "nandor.matra@gmail.com"
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 
 
 if os.environ.get("SAFE_RADIX32_PUREPYTHON"):
-    from .pure import encode_safe_radix32, decode_safe_radix32, SAFE_RADIX32_ALPHABET, SAFE_RADIX32_ALPHABET_RE
+    from .pure import (
+        encode_safe_radix32 as encode,
+        decode_safe_radix32 as decode,
+        SAFE_RADIX32_ALPHABET as ALPHABET,
+        SAFE_RADIX32_ALPHABET_RE as ALPHABET_RE,
+        encode_safe_radix32_fixed_width as encode_fw,
+    )
 else:
     try:
-        from ._cython import encode_safe_radix32, decode_safe_radix32, SAFE_RADIX32_ABC, SAFE_RADIX32_ALPHABET_RE
+        from ._cython import (
+            encode_safe_radix32 as encode,
+            decode_safe_radix32 as decode,
+            SAFE_RADIX32_ABC as ALPHABET,
+            SAFE_RADIX32_ALPHABET_RE as ALPHABET_RE,
+            encode_safe_radix32_fixed_width as encode_fw,
+        )
     except ImportError:
-        from .pure import encode_safe_radix32, decode_safe_radix32, SAFE_RADIX32_ALPHABET, SAFE_RADIX32_ALPHABET_RE
-
-
-encode = encode_safe_radix32
-decode = decode_safe_radix32
-
-ALPHABET = SAFE_RADIX32_ALPHABET
-ALPHABET_RE = SAFE_RADIX32_ALPHABET_RE
+        from .pure import (
+            encode_safe_radix32 as encode,
+            decode_safe_radix32 as decode,
+            SAFE_RADIX32_ALPHABET as ALPHABET,
+            SAFE_RADIX32_ALPHABET_RE as ALPHABET_RE,
+            encode_safe_radix32_fixed_width as encode_fw,
+        )

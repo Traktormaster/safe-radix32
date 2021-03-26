@@ -16,16 +16,18 @@ import safe_radix32.pure as sr32p
 
 def benchmark(name, fn, ns):
     t = timeit.timeit(lambda: [fn(n) for n in ns], number=5000)
-    print("%-26s %10d/s" % (name, len(ns) / (t / 5000)))
+    print("%-32s %10d/s" % (name, len(ns) / (t / 5000)))
 
 
 def main():
-    ns = [random.randint(-(2 ** 63), 2 ** 63 - 1) for _ in range(100)]
+    ns = [random.randint(-(2 ** 63), 2 ** 63 - 1) for _ in range(200)]
     es = [(sr32c if sr32c else sr32p).encode_safe_radix32(n) for n in ns]
     if sr32c:
         benchmark("encode safe_radix32-c", sr32c.encode_safe_radix32, ns)
+        benchmark("encode safe_radix32-c-fw", sr32c.encode_safe_radix32_fixed_width, ns)
         benchmark("decode safe_radix32-c", sr32c.decode_safe_radix32, es)
     benchmark("encode safe_radix32-pure", sr32p.encode_safe_radix32, ns)
+    benchmark("encode safe_radix32-pure-fw", sr32p.encode_safe_radix32_fixed_width, ns)
     benchmark("decode safe_radix32-pure", sr32p.decode_safe_radix32, es)
 
 

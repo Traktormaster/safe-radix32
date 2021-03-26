@@ -85,7 +85,7 @@ def decode_safe_radix32(str v):
     cdef long u = 0
     cdef int i = 0
     while True:
-        x = SAFE_UNMAP[<int>c_string[i]]
+        x = SAFE_UNMAP[<unsigned char>c_string[i]]
         if x == -1:
             raise OverflowError
         u |= x
@@ -94,3 +94,29 @@ def decode_safe_radix32(str v):
             break
         u <<= SAFE_BASE_BITS
     return u
+
+
+def encode_safe_radix32_fixed_width(long v):
+    """
+    :raise OverflowError value is not C long (raised by cython at function call)
+    """
+    cdef char* c_string = <char *> malloc(14 * sizeof(char))
+    if not c_string:
+        raise MemoryError
+    c_string[0] = SAFE_MAP[(v >> 60) & 15]
+    c_string[1] = SAFE_MAP[(v >> 55) & 31]
+    c_string[2] = SAFE_MAP[(v >> 50) & 31]
+    c_string[3] = SAFE_MAP[(v >> 45) & 31]
+    c_string[4] = SAFE_MAP[(v >> 40) & 31]
+    c_string[5] = SAFE_MAP[(v >> 35) & 31]
+    c_string[6] = SAFE_MAP[(v >> 30) & 31]
+    c_string[7] = SAFE_MAP[(v >> 25) & 31]
+    c_string[8] = SAFE_MAP[(v >> 20) & 31]
+    c_string[9] = SAFE_MAP[(v >> 15) & 31]
+    c_string[10] = SAFE_MAP[(v >> 10) & 31]
+    c_string[11] = SAFE_MAP[(v >> 5) & 31]
+    c_string[12] = SAFE_MAP[v & 31]
+    try:
+        return <str>c_string
+    finally:
+        free(c_string)

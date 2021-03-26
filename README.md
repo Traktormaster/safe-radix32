@@ -55,10 +55,16 @@ Python 3.6+ and PyPy3 are supported.
 
 ```pycon
 >>> import safe_radix32
->>> safe_radix32.encode(1234567890987654321)
-'34CQQwWjfjB8V'
+>>> safe_radix32.encode(12345678987654321)
+'GwqGVVF6v8V'
 >>> safe_radix32.decode(_)
-1234567890987654321
+12345678987654321
+
+# or fixed width encoding (13 chars)
+>>> safe_radix32.encode_fw(12345678987654321)
+'22GwqGVVF6v8V'
+>>> safe_radix32.decode(_)
+12345678987654321
 ```
 
 # Security
