@@ -38,10 +38,10 @@ SAFE_RADIX32_ALPHABET = <str>SAFE_MAP
 SAFE_RADIX32_ALPHABET_RE = re.compile(r"^["+SAFE_RADIX32_ALPHABET+"]+$", re.ASCII)
 
 
-def encode_safe_radix32(long v):
+def encode_safe_radix32(long long v):
     """
     :raise TypeError if input arguments is incorrect type (raised by cython at function call)
-    :raise OverflowError value is not C long (raised by cython at function call)
+    :raise OverflowError value is not C long long (raised by cython at function call)
     """
     cdef char* c_string = <char *> malloc((SAFE_MAP_SHIFTS_NUM + 1) * sizeof(char))
     if not c_string:
@@ -75,7 +75,7 @@ def decode_safe_radix32(str v):
     """
     :raise TypeError if input arguments is incorrect type (raised by cython at function call)
     :raise UnicodeEncodeError if input contains invalid characters (encoding-related)
-    :raise OverflowError if input contains invalid characters (alphabet-related) or value is not C long
+    :raise OverflowError if input contains invalid characters (alphabet-related) or value is not C long long
     """
     cdef int l = len(v)
     if l > SAFE_MAP_SHIFTS_NUM:
@@ -84,7 +84,7 @@ def decode_safe_radix32(str v):
     if l == SAFE_MAP_SHIFTS_NUM and c_string[0] > TOP_SHIFT_MAX1:
         raise OverflowError
     cdef char x
-    cdef long u = 0
+    cdef long long u = 0
     cdef int i = 0
     while True:
         x = SAFE_UNMAP[<unsigned char>c_string[i]]
@@ -98,10 +98,10 @@ def decode_safe_radix32(str v):
     return u
 
 
-def encode_safe_radix32_fixed_width(long v):
+def encode_safe_radix32_fixed_width(long long v):
     """
     :raise TypeError if input arguments is incorrect type (raised by cython at function call)
-    :raise OverflowError value is not C long (raised by cython at function call)
+    :raise OverflowError value is not C long long (raised by cython at function call)
     """
     cdef char* c_string = <char *> malloc(14 * sizeof(char))
     if not c_string:
