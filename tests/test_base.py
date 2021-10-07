@@ -79,3 +79,14 @@ def test_safe_radix32_limits():
     for v in ["88888888888888", "48888888888888", "Qzzzzzzzzzzzz", "zzzzzzzzzzzzz"]:
         with pytest.raises(OverflowError):
             safe_radix32.decode(v)
+
+
+def test_safe_radix32_types():
+    for v in [None, ["88"], 5451]:
+        with pytest.raises(TypeError):
+            safe_radix32.decode(v)
+    for v in [None, ["88"], "8888"]:
+        with pytest.raises(TypeError):
+            safe_radix32.encode(v)
+        with pytest.raises(TypeError):
+            safe_radix32.encode_fw(v)

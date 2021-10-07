@@ -40,8 +40,11 @@ SAFE_RADIX32_ALPHABET_RE = re.compile(r"^[" + SAFE_RADIX32_ALPHABET + "]+$", re.
 
 def encode_safe_radix32(v: int) -> str:
     """
-    :raise OverflowError value is not C long
+    :raise TypeError if input arguments is incorrect type
+    :raise OverflowError if value is not C long
     """
+    if not isinstance(v, int):
+        raise TypeError
     if v >= 2 ** 63 or v < -(2 ** 63):  # mirror overflow semantics of c-long
         raise OverflowError
     c_string = []
@@ -63,9 +66,12 @@ def encode_safe_radix32(v: int) -> str:
 
 def decode_safe_radix32(v: str) -> int:
     """
+    :raise TypeError if input arguments is incorrect type
     :raise UnicodeEncodeError if input contains invalid characters (encoding-related)
     :raise OverflowError if input contains invalid characters (alphabet-related) or value is not C long
     """
+    if not isinstance(v, str):
+        raise TypeError
     c_string = v.encode("ascii")
     if len(c_string) > SAFE_MAP_SHIFTS_NUM:
         raise OverflowError
@@ -90,8 +96,11 @@ def decode_safe_radix32(v: str) -> int:
 
 def encode_safe_radix32_fixed_width(v: int) -> str:
     """
+    :raise TypeError if input arguments is incorrect type
     :raise OverflowError value is not C long
     """
+    if not isinstance(v, int):
+        raise TypeError
     if v >= 2 ** 63 or v < -(2 ** 63):  # mirror overflow semantics of c-long
         raise OverflowError
     return "".join(
