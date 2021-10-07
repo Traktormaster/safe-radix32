@@ -50,7 +50,7 @@ def encode_safe_radix32(long long v):
     cdef int shift_i = 0
     cdef char char_v
     while shift_i < SAFE_MAP_SHIFTS_NUM - 1:
-        char_v = (v >> SAFE_MAP_SHIFTS[shift_i]) & SAFE_MASK
+        char_v = <char>((v >> SAFE_MAP_SHIFTS[shift_i]) & SAFE_MASK)
         if char_v > 0:
             if shift_i == 0:
                 char_v &= TOP_SHIFT_MAX0
@@ -77,7 +77,7 @@ def decode_safe_radix32(str v):
     :raise UnicodeEncodeError if input contains invalid characters (encoding-related)
     :raise OverflowError if input contains invalid characters (alphabet-related) or value is not C long long
     """
-    cdef int l = len(v)
+    cdef int l = <int>len(v)
     if l > SAFE_MAP_SHIFTS_NUM:
         raise OverflowError
     cdef char* c_string = v
@@ -119,6 +119,7 @@ def encode_safe_radix32_fixed_width(long long v):
     c_string[10] = SAFE_MAP[(v >> 10) & 31]
     c_string[11] = SAFE_MAP[(v >> 5) & 31]
     c_string[12] = SAFE_MAP[v & 31]
+    c_string[13] = 0
     try:
         return <str>c_string
     finally:

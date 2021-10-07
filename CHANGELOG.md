@@ -1,5 +1,8 @@
 # safe_radix32
 
+## 0.3.2
+- Fixed fixed-width encode on Windows
+
 ## 0.3.1
 - Fixed cython build on Windows
 
