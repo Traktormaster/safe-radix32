@@ -1,5 +1,8 @@
 # safe_radix32
 
+## 0.4.0
+- Utilities to encode/decode arbitrary bytes to/from safe-radix32 (pure python only)
+
 ## 0.3.2
 - Fixed fixed-width encode on Windows
 
