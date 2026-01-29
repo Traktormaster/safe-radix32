@@ -1,5 +1,9 @@
 # safe_radix32
 
+## 0.4.1
+- Update packaging (maintenance)
+- Dropped Python support below 3.9
+
 ## 0.4.0
 - Utilities to encode/decode arbitrary bytes to/from safe-radix32 (pure python only)
 
