@@ -1,5 +1,8 @@
 # safe_radix32
 
+## 0.4.2
+- Change license definition in pyproject.toml to the deprecated format to resolve building issues with old environments
+
 ## 0.4.1
 - Update packaging (maintenance)
 - Dropped Python support below 3.9

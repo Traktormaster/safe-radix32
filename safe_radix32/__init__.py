@@ -10,7 +10,7 @@ import os
 __author__ = "Nándor Mátravölgyi"
 __copyright__ = "Copyright 2026 Nándor Mátravölgyi"
 __author_email__ = "nandor.matra@gmail.com"
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 
 
 if os.environ.get("SAFE_RADIX32_PUREPYTHON"):
